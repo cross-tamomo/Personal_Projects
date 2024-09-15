@@ -17,9 +17,7 @@ public class CoffeeMachine {
 
     }
 
-    // Calculate remaining ingredients and how much money is left
-
-    // user actions
+    // actions user's can perform
     public static void action(String userInput) {
         System.out.println("Write action:");
 
@@ -40,7 +38,7 @@ public class CoffeeMachine {
         }
     }
 
-    // buy function with three options espresso, latte, or cappuccino
+    // buy, function with three options espresso, latte, or cappuccino
     public static void buy() {
         Scanner userInput = new Scanner(System.in);
 
@@ -69,7 +67,6 @@ public class CoffeeMachine {
     }
 
     // fill, ask how much water, milk, coffee and how many cups they want to add into the coffee machine
-    // find a way to display money also
     public static void fill() {
         Scanner userInput = new Scanner(System.in);
 
@@ -94,6 +91,7 @@ public class CoffeeMachine {
         storedMoney = 0;
     }
 
+    // display stored supplies
     public static void displayStored() {
         System.out.printf(
             "The coffee machine has:%n" +
