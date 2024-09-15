@@ -8,31 +8,29 @@ public class CoffeeMachine {
     static int storedCoffeeBeans = 120;
     static int storedCups = 9;
     static int storedMoney = 550;
+    static boolean exitFlag = true;
 
     public static void main(String[] args) {
         Scanner userInput = new Scanner(System.in);
 
-        System.out.println("Write action:");
-        action(userInput.nextLine());
-
+        do {
+            System.out.println("Write action:");
+            action(userInput.nextLine());
+        } while (exitFlag);
     }
 
     // actions user's can perform
     public static void action(String userInput) {
-        System.out.println("Write action:");
-
         if (userInput.equalsIgnoreCase("BUY")) {
-            displayStored();
             buy();
-            displayStored();
         } else if (userInput.equalsIgnoreCase("FILL")) {
-            displayStored();
             fill();
-            displayStored();
         } else if (userInput.equalsIgnoreCase("TAKE")) {
-            displayStored();
             take();
-            displayStored();
+        } else if (userInput.equalsIgnoreCase("REMAINING")) {
+            remaining();
+        } else if (userInput.equalsIgnoreCase("EXIT")) {
+            exit();
         } else {
             System.out.println("Invalid Action");
         }
@@ -42,28 +40,28 @@ public class CoffeeMachine {
     public static void buy() {
         Scanner userInput = new Scanner(System.in);
 
-        System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:");
-        int drinkType = userInput.nextInt();
+        System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino, back - to main menu:");
+        String drinkType = userInput.nextLine();
 
-        if (drinkType == 1) {
-            storedWater -= 250;
-            storedCoffeeBeans -= 16;
-            storedMoney += 4;
-        } else if (drinkType == 2) {
-            storedWater -= 350;
-            storedMilk -= 75;
-            storedCoffeeBeans -= 20;
-            storedMoney += 7;
-        } else if (drinkType == 3) {
-            storedWater -= 200;
-            storedMilk -= 100;
-            storedCoffeeBeans -= 12;
-            storedMoney += 6;
-        } else {
-            System.out.println("Not enough ingredients");
+        if (drinkType.equalsIgnoreCase("BACK")) {
+            System.out.println("Returning to main menu");
+            return;
         }
 
-        storedCups -= 1;
+        switch (drinkType) {
+            case "1":
+                makeCoffee(250, 0, 16, 4, "espresso");
+                break;
+            case "2":
+                makeCoffee(350, 75, 20, 7, "latte");
+                break;
+            case "3":
+                makeCoffee(200, 100, 12, 6, "cappuccino");
+                break;
+            default:
+                System.out.println("Invalid input");
+        }
+
     }
 
     // fill, ask how much water, milk, coffee and how many cups they want to add into the coffee machine
@@ -73,16 +71,18 @@ public class CoffeeMachine {
         System.out.println("Write how many ml of water you want to add:");
         int fillWater = userInput.nextInt();
         storedWater += fillWater;
+
         System.out.println("Write how many ml of milk you want to add:");
         int fillMilk = userInput.nextInt();
         storedMilk += fillMilk;
+
         System.out.println("Write how many grams of coffee beans you want to add:");
         int fillCoffeeBeans = userInput.nextInt();
         storedCoffeeBeans += fillCoffeeBeans;
+
         System.out.println("Write how many disposable cups you want to add:");
         int fillCups = userInput.nextInt();
         storedCups += fillCups;
-
     }
 
     // take, should give all the money that it earned from selling coffee
@@ -92,7 +92,7 @@ public class CoffeeMachine {
     }
 
     // display stored supplies
-    public static void displayStored() {
+    public static void remaining() {
         System.out.printf(
             "The coffee machine has:%n" +
                 "%d ml of water%n" +
@@ -102,5 +102,46 @@ public class CoffeeMachine {
                 "$%d of money%n",
             storedWater, storedMilk, storedCoffeeBeans, storedCups, storedMoney
         );
+    }
+
+    // calculates remaining resources in coffee machine
+    public static void makeCoffee(int waterRequired, int milkRequired, int beansRequired, int price, String coffeeType) {
+        if (!hasEnoughIngredients(waterRequired, milkRequired, beansRequired)) {
+            return;
+        }
+
+        storedWater -= waterRequired;
+        storedMilk -= milkRequired;
+        storedCoffeeBeans -= beansRequired;
+        storedCups -= 1;
+        storedMoney += price;
+
+        System.out.println("I have enough ingredients, making you a " + coffeeType + "!");
+    }
+
+    // checks requirements to make a coffee
+    public static boolean hasEnoughIngredients(int waterRequired, int milkRequired, int beansRequired) {
+        if (storedWater < waterRequired) {
+            System.out.println("Sorry, not enough water!");
+            return false;
+        }
+        if (storedMilk < milkRequired) {
+            System.out.println("Sorry, not enough milk!");
+            return false;
+        }
+        if (storedCoffeeBeans < beansRequired) {
+            System.out.println("Sorry, not enough coffee beans!");
+            return false;
+        }
+        if (storedCups < 1) {
+            System.out.println("Sorry, not enough disposable cups!");
+            return false;
+        }
+        return true;
+    }
+
+    // sets flag to exit the program
+    public static void exit() {
+        exitFlag = false;
     }
 }
