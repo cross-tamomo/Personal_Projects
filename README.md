@@ -16,8 +16,3 @@ This project is a simple **Coffee Machine Simulator** built in Java. The applica
 - Java Development Kit (JDK) 8 or higher
 - A Java IDE (e.g., IntelliJ IDEA, Eclipse) or command line to run the project
 
-### Installation
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/yourusername/coffee-machine.git
