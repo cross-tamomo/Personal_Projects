@@ -1,7 +1,5 @@
 # Coffee Machine Simulator
 
-![Coffee Machine] <!-- Add an image URL if available -->
-
 This project is a simple **Coffee Machine Simulator** built in Java. The application allows users to manage a coffee machine, including buying different types of coffee, filling ingredients, and checking the machine's status.
 
 ## Features
